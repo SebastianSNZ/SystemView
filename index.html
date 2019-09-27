@@ -1,0 +1,67 @@
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+        </script>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{.Direction}}">System Information</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="{{.Direction}}">CPU <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{.Direction}}">RAM</a>
+            </li>
+            </ul>
+        </div>
+    </nav>
+    <div class = "row" style="margin-top: 30px">
+        <div class="col-md-8 text-center">
+            <h4 style="margin-bottom: 30px">
+                Todos los procesos listados.
+            </h4>
+        </div>
+        <div class = "col-md-8 offset-md-2 col-sm-12">
+            <table class = "table table-hover">
+                <thead>
+                    <tr>
+                        <th>PID</th>
+                        <th>Nombre</th>
+                        <th>Estado</th>
+                        <th>Usuario</th>
+                    </tr>
+                </thead>
+                <tbody id = "processTable">
+                </tbody>
+            </table>
+            <script>
+                function getProcessList() {
+                    $.get("{{.Direction}}/process", function (data, status) {
+                        $.each(data, function(key, value) {
+                            var tr = $("<tr>");
+                            tr.append($("<td>").text(value.PID));
+                            tr.append($("<td>").text(value.Name));
+                            tr.append($("<td>").text(value.Status));
+                            tr.append($("<td>").text(value.User));
+                            $("#processTable").append(tr);
+                        });
+                    });
+                }
+                getProcessList()
+            </script>
+        </div>
+        
+    </div>
+</body>
+
+</html>
